@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./g-addproduct.css">
+  <link rel="stylesheet" href="./addproduct.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide:wght@400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@700&display=swap">
+  <title>Add Product</title>
+</head>
+<body>
+  <div class="sell-page">
+    <!-- Header -->
+    <section class="header-parent">
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html" style="color:#7ad957 ; text-decoration:none">TRASHBID</a></h1>
+          </div>
+        </div>
+      </header>
+    </section>
+
+    <div class="add-product-wrapper">
+      <h1 id="addac" class="add-product">Add Product</h1>
+    </div>
+    <div class="add-product1">
+      <form id="addProductForm" class="form-container">
+        <!-- Image URL Input -->
+        <div class="image-input">
+          <div class="image-input-fields">
+            <h3 class="product-image">Product Image URL</h3>
+            <div class="input-field">
+              <input id="imageUrl" class="input-field3" placeholder="Enter Image URL" type="url" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Name -->
+        <div class="product-name-parent">
+          <input id="productName" class="product-name" placeholder="Product Name" type="text" required>
+        </div>
+
+        <!-- Description -->
+        <div class="description-parent">
+          <h3 class="description">Description</h3>
+          <input id="description" class="description-field" placeholder="Description" type="text" maxlength="1000" required>
+          <b id="descriptionCount" class="description-field">0/1000</b>
+        </div>
+
+        <!-- Starting Price -->
+        <div class="price-increment">
+          <h3 class="starting-price">Starting Price</h3>
+          <input id="startingPrice" class="input-field3" placeholder="Starting Price" type="text" required>
+        </div>
+
+        <!-- Bid Increment -->
+        <div class="price-increment1">
+          <h3 class="bid-increment">Bid Increment</h3>
+          <input id="bidIncrement" class="bid-increment" placeholder="Bid Increment" type="text" required>
+        </div>
+
+        <!-- Closing Time (Date and Time Picker) -->
+        <div class="time-input">
+          <h3 class="closing-time">Closing Time</h3>
+          <input id="closingTime" type="datetime-local" required>
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="form-buttons">
+          <button type="button" id="cancelButton" class="buttons-large4">
+            <div class="large-button4">Cancel</div>
+          </button>
+          <button type="submit" class="buttons-large5">
+            <div class="large-button5">Add Product</div>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Help</a>
+        </div>
+        <div class="footer-logo">
+          <p>© 2024 TrashBid. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript for PocketBase and Form Handling -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('addProductForm');
+      const productNameInput = document.getElementById('productName');
+      const descriptionInput = document.getElementById('description');
+      const startingPriceInput = document.getElementById('startingPrice');
+      const bidIncrementInput = document.getElementById('bidIncrement');
+      const closingTimeInput = document.getElementById('closingTime');
+      const imageUrlInput = document.getElementById('imageUrl');
+      const descriptionCount = document.getElementById('descriptionCount');
+
+      // Description character count update
+      descriptionInput.addEventListener('input', () => {
+        descriptionCount.textContent = `${descriptionInput.value.length}/1000`;
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('name', productNameInput.value);
+        formData.append('desc', descriptionInput.value);
+        formData.append('start_price', startingPriceInput.value);
+        formData.append('bid_inc', bidIncrementInput.value);
+        formData.append('close_time', new Date(closingTimeInput.value).toISOString());
+        formData.append('product_image', imageUrlInput.value); // Store the URL in product_image
+
+        try {
+          const response = await fetch('http://10.10.194.160:8050/api/collections/Product/records', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (response.ok) {
+            alert('Product added successfully!');
+            form.reset();
+          } else {
+            alert('Failed to add product. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

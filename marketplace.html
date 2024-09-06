@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./g-marketplace.css" />
+    <link rel="stylesheet" href="./marketplace.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Audiowide:wght@400&display=swap"
+    />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body>
+    <div class="marketplace" x-data="dataFetcher()" x-init="fetchData">
+      <!-- Header Content -->
+      <section class="header-parent">
+        <header class="header">
+          <!-- Ensure all header elements are included here -->
+          <div class="header-child"></div>
+          <div class="header-inner">
+            <div class="frame-parent">
+              <div class="frame-wrapper">
+                <img
+                  class="frame-child"
+                  loading="lazy"
+                  alt=""
+                  src="./public/group-33522.svg"
+                />
+              </div>
+              <a class="trashbid">
+                <a href="index.html">TRASHBID</a>
+              </a>
+            </div>
+          </div>
+          <div class="buttons-large">
+            <div class="large-button">Add</div>
+          </div>
+          <div class="search-wrapper">
+            <div class="search">
+              <div class="icon-linesearch-wrapper">
+                <img
+                  class="icon-linesearch"
+                  alt=""
+                  src="./public/icon-linesearch.svg"
+                />
+              </div>
+              <a class="search1">
+                <input
+                  style="background-color:#2D396B; font-size: 20px;"
+                  class="input-field"
+                  placeholder="Search"
+                  type="text"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="buttons-large-wrapper">
+          </div>
+          <div class="header-item"></div>
+          <img class="group-icon" alt="" src="./public/group-48095365.svg" />
+
+          <div class="profile-dropdrown">
+            <div class="profile-picture-parent">
+              <img
+                class="profile-picture-icon"
+                loading="lazy"
+                alt=""
+                src="./public/ellipse-1@2x.png"
+              />
+              <div class="icon-linechevron-down-wrapper">
+                <img
+                  class="icon-linechevron-down"
+                  loading="lazy"
+                  alt=""
+                  src="./public/icon-linechevrondown.svg"
+                />
+              </div>
+            </div>
+          </div>
+        </header>
+      </section>
+
+      <!-- Marketplace Content -->
+      <section class="frame-container">
+        <div class="frame-group">
+          <div class="marketplace-wrapper">
+            <h1 class="marketplace1">Marketplace</h1>
+          </div>
+          <div class="rectangle-parent">
+            <button class="buttons-large3">
+              <div class="large-button3">Buy</div>
+            </button>
+            <button class="buttons-large4">
+              <div class="large-button4"><a style="color: black ; font-size: 20px;" href="addproduct.html">Sell</a></div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alpine.js Template for each record -->
+      <template x-for="record in data" :key="record.id">
+        <div class="content-container">
+          <div class="listing-container">
+            <img class="metal-scrap-1-icon" alt="" :src="record.product_image" />
+          </div>
+          <div class="listing-container1" style="font-family: 'Audiowide', sans-serif;">
+            <div class="frame-div">
+              <div class="copper-scratch-wrapper">
+                <h2 class="copper-scratch" x-text="record.name"></h2>
+              </div>
+              <div class="time-left-1d-23hrs-17-mins-parent">
+                <div class="time-left-container">
+                  <span>Time left : </span>
+                  <span class="d-23hrs-17" x-text="record.timeLeft"></span>
+                </div>
+                <div class="no-of-bids-container">
+                  <span class="no-of-bids">No. of Bids : </span>
+                  <span class="span" x-text="record.bids"></span>
+                </div>
+              </div>
+              <div class="ullamcorper-nulla-orci" x-text="record.desc"></div>
+            </div>
+            <div class="frame-parent1" >
+              <div class="ib-690-wrapper">
+                Current Bidx : <div class="ib-690-" x-text="record.start_price"></div>
+              </div>
+              <button class="buttons-large-container" @click="placeBid(record)">
+                <div class="buttons-large5">
+                  <div class="large-button5">Place Bid</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Footer Content -->
+      <section class="footer-container">
+        <div class="footer">
+          <div class="footer1">
+            <div class="footer-inner">
+              <div class="trashbid-parent">
+                <h2 class="trashbid1">TRASHBID</h2>
+                <div class="frame-parent2">
+                  <div class="pages-parent">
+                    <h3 class="pages">Pages</h3>
+                    <div class="footer-links-second">
+                      <div class="discover">Discover</div>
+                      <div class="marketplace2">Marketplace</div>
+                      <div class="history">History</div>
+                    </div>
+                  </div>
+                  <div class="connect-parent">
+                    <h3 class="connect">Connect</h3>
+                    <div class="faq-parent">
+                      <div class="faq">FAQ</div>
+                      <div class="support">Support</div>
+                      <div class="feedback">Feedback</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-child">
+              <div class="frame-inner"></div>
+            </div>
+            <img class="footer-item" alt="" src="./public/group-48095365.svg" />
+          </div>
+        </div>
+        <div class="made-with-container">
+          Made with ❤️ by Team Hackmates
+        </div>
+      </section>
+    </div>
+
+    <!-- JavaScript code -->
+    <script>
+      function dataFetcher() {
+        return {
+          data: [],           // Data to be fetched
+          loading: true,      // Loading state
+
+          // Function to fetch data
+          fetchData() {
+            fetch('http://10.10.194.160:8050/api/collections/Product/records') // Replace with your API endpoint
+              .then(response => response.json())
+              .then(result => {
+                this.data = result.items.map(item => ({
+                  ...item,
+                  timeLeft: this.calculateTimeLeft(item.close_time), // Initial calculation
+                  bids: this.getBidCount(item.id), // Get bids from local storage or server
+                  start_price: this.getStartPrice(item.id) // Get start price from local storage or server
+                }));
+                this.loading = false;
+
+                // Update time left every second
+                this.startTimer();
+              })
+              .catch(error => {
+                console.error('Error fetching data:', error);
+                this.data = 'Failed to load data';
+                this.loading = false;
+              });
+          },
+
+          // Function to calculate time left
+          calculateTimeLeft(closeTime) {
+            const endTime = new Date(closeTime).getTime();
+            const now = new Date().getTime();
+            const timeLeft = endTime - now;
+
+            if (timeLeft <= 0) {
+              return "Time's up!";
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          },
+
+          // Function to update time left every second
+          startTimer() {
+            setInterval(() => {
+              this.data = this.data.map(record => ({
+                ...record,
+                timeLeft: this.calculateTimeLeft(record.close_time)
+              }));
+            }, 1000);
+          },
+
+          // Function to handle bidding
+          placeBid(record) {
+            record.start_price += parseInt(record.bid_inc); // Increment the bid dynamically
+            record.bids += 1; // Increment the bid count
+
+            // Save the updated bid count and start price
+            this.saveBidCount(record.id, record.bids);
+            this.saveStartPrice(record.id, record.start_price);
+          },
+
+          // Function to get bid count from local storage or server
+          getBidCount(id) {
+            return parseInt(localStorage.getItem(`bids_${id}`)) || 0;
+          },
+
+          // Function to get start price from local storage or server
+          getStartPrice(id) {
+            return parseInt(localStorage.getItem(`start_price_${id}`)) || 0;
+          },
+
+          // Function to save bid count to local storage
+          saveBidCount(id, bids) {
+            localStorage.setItem(`bids_${id}`, bids);
+          },
+
+          // Function to save start price to local storage
+          saveStartPrice(id, start_price) {
+            localStorage.setItem(`start_price_${id}`, start_price);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
